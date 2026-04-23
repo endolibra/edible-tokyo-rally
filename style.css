@@ -938,9 +938,9 @@ body {
 }
 
 @media (max-width: 768px) {
-  /* SVG illustration height ≈ 42vw (viewBox 1200×500 ratio) — push text below it */
+  /* align vertical text top with brand text top (illustration height 42vw + brand padding-top 5vh) */
   .hero-vertical-text {
-    top: calc(57px + 42vw + 20px);
+    top: calc(57px + 42vw + 5vh);
   }
 }
 
