@@ -424,7 +424,8 @@
         </div>
       </div>
     </div>
-    <a href="https://maps.app.goo.gl/fXBt6g5jwXvtz1ra7" id="google-map-btn" target="_blank" rel="noopener noreferrer" class="btn-map">Google
+    <a href="https://maps.app.goo.gl/fXBt6g5jwXvtz1ra7" id="google-map-btn" target="_blank" rel="noopener noreferrer"
+      class="btn-map">Google
       mapへ</a>
   </section>
 
@@ -665,14 +666,38 @@
     });
 
     // ── ヘッダー・フッターリンク連動 ──────────────────────────────
+    // 共通のスクロール関数
+    function scrollToCenter(targetId) {
+      const target = document.getElementById(targetId);
+      if (target) {
+        const rect = target.getBoundingClientRect();
+        const targetTop = rect.top + window.scrollY;
+        const targetHeight = rect.height;
+        const windowHeight = window.innerHeight;
+        const scrollPos = targetTop - (windowHeight / 2) + (targetHeight / 2);
+
+        window.scrollTo({
+          top: scrollPos,
+          behavior: 'smooth'
+        });
+      }
+    }
+
     document.querySelectorAll('.js-nav-map').forEach(el => {
       el.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.getElementById('google-map-btn');
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
+        scrollToCenter('google-map-btn');
       });
+    });
+
+    // ページロード時にハッシュがある場合の処理
+    window.addEventListener('load', () => {
+      if (window.location.hash === '#google-map-btn') {
+        // ネイティブのスクロールを上書きするために少し遅らせる
+        setTimeout(() => {
+          scrollToCenter('google-map-btn');
+        }, 100);
+      }
     });
 
     document.querySelectorAll('.js-nav-day').forEach(el => {
