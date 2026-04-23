@@ -700,13 +700,25 @@
     });
 
     // ── ヘッダー・フッターリンク連動 ──────────────────────────────
+    function scrollToCenter(targetId) {
+      const target = document.getElementById(targetId);
+      if (target) {
+        const rect = target.getBoundingClientRect();
+        const scrollPos = rect.top + window.scrollY - (window.innerHeight / 2) + (rect.height / 2);
+        window.scrollTo({ top: scrollPos, behavior: 'smooth' });
+      }
+    }
+
+    window.addEventListener('load', () => {
+      if (window.location.hash === '#google-map-btn') {
+        setTimeout(() => scrollToCenter('google-map-btn'), 100);
+      }
+    });
+
     document.querySelectorAll('.js-nav-map').forEach(el => {
       el.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.getElementById('google-map-btn');
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
+        scrollToCenter('google-map-btn');
       });
     });
 
