@@ -13,83 +13,365 @@
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ─── ABOUT PAGE SPECIFIC STYLES ─── */
-    .page-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 180px 10vw 120px;
+    /* ─── ABOUT PAGE ─── */
+
+    /* Hero */
+    .about-hero {
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
     }
 
-    .about-section-grid {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 260px;
-      /* ★ラベル（About/why）と本文の間の横方向の余白 */
-      margin-bottom: 240px;
+    .about-hero-line {
+      position: absolute;
+      left: 50%;
+      top: 80px;
+      bottom: 80px;
+      width: 1px;
+      background: var(--green-dark);
+      opacity: 0.2;
+      transform: scaleY(0);
+      transform-origin: top;
+      animation: lineGrow 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
     }
 
-    .section-label {
+    @keyframes lineGrow {
+      to { transform: scaleY(1); }
+    }
+
+    .about-hero-eyebrow {
       font-family: var(--font-en);
-      font-weight: 400;
-      color: var(--text);
-      line-height: 1;
+      font-size: 11px;
+      letter-spacing: 0.35em;
+      color: var(--text-light);
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      animation: heroFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
     }
 
-    .section-label.large {
-      font-size: 56px;
-      letter-spacing: -0.02em;
+    .about-hero-title {
+      font-family: var(--font-en);
+      font-size: clamp(88px, 16vw, 200px);
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      color: var(--green-dark);
+      margin: 12px 0 16px;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      animation: heroFadeUp 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
     }
 
-    .section-label.small {
-      font-size: 24px;
-      letter-spacing: 0.05em;
-      padding-top: 10px;
+    .about-hero-sub {
+      font-family: var(--font-jp);
+      font-size: clamp(12px, 1.2vw, 14px);
+      letter-spacing: 0.25em;
+      color: var(--text-light);
+      font-weight: 300;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      animation: heroFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 1s forwards;
     }
 
-    .section-content {
-      color: var(--text);
+    .about-hero-scroll {
+      position: absolute;
+      bottom: 44px;
+      right: 8vw;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-en);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      color: var(--text-light);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: heroFadeIn 1s ease 1.6s forwards;
+      writing-mode: vertical-rl;
     }
 
-    /* Lead Text (Bold-ish headers) */
-    .lead-block {
-      margin-bottom: 80px;
+    .about-hero-scroll::after {
+      content: '';
+      width: 1px;
+      height: 48px;
+      background: var(--green-dark);
+      opacity: 0.35;
+      animation: scrollBlink 2.4s ease-in-out infinite 2s;
     }
 
-    .lead-text {
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 2;
-      letter-spacing: 0.1em;
-      margin-bottom: 12px;
+    @keyframes scrollBlink {
+      0%, 100% { opacity: 0.35; transform: scaleY(1); }
+      50% { opacity: 0.1; transform: scaleY(0.4); }
     }
 
-    /* Body Text */
-    .body-block p {
-      font-size: 15px;
-      font-weight: 400;
-      line-height: 2.4;
-      letter-spacing: 0.08em;
+    .about-hero-num {
+      position: absolute;
+      bottom: 44px;
+      left: 8vw;
+      font-family: var(--font-en);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--text-light);
+      opacity: 0;
+      animation: heroFadeIn 1s ease 1.6s forwards;
+    }
+
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes heroFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* Divider */
+    .rule {
+      border: none;
+      border-top: 1px solid var(--green-dark);
+      opacity: 0.12;
+      margin: 0;
+    }
+
+    /* Section label */
+    .section-tag {
+      font-family: var(--font-en);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: var(--text-light);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 64px;
+    }
+
+    .section-tag::after {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--text-light);
+    }
+
+    /* ─── CONCEPT SECTION ─── */
+    .concept-section {
+      padding: 120px 8vw 140px;
+    }
+
+    .concept-line {
+      font-family: var(--font-jp);
+      font-size: clamp(26px, 4.2vw, 58px);
+      font-weight: 300;
+      line-height: 1.65;
+      letter-spacing: 0.04em;
+      color: var(--green-dark);
+      display: block;
+    }
+
+    .concept-line + .concept-line {
+      margin-top: 0.2em;
+    }
+
+    /* ─── BODY SECTION ─── */
+    .body-section {
+      padding: 120px 8vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: start;
+    }
+
+    .body-col-label {
+      font-family: var(--font-en);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--text-light);
+      text-transform: uppercase;
       margin-bottom: 48px;
     }
 
-    .body-block p:last-child {
-      margin-bottom: 0;
+    .body-col p {
+      font-size: clamp(14px, 1.2vw, 16px);
+      line-height: 2.4;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 40px;
+      font-weight: 300;
     }
 
-    @media (max-width: 768px) {
-      .page-container {
-        padding: 120px 24px 80px;
-      }
+    .body-col p:last-child { margin-bottom: 0; }
 
-      .about-section-grid {
+    .body-img-col {
+      position: sticky;
+      top: 120px;
+    }
+
+    .body-img-wrap {
+      overflow: hidden;
+    }
+
+    .body-img-wrap img {
+      width: 100%;
+      height: 55vh;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.08);
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .body-img-wrap.is-visible img {
+      transform: scale(1);
+    }
+
+    /* Clip-path reveal for image */
+    .clip-reveal {
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .clip-reveal.is-visible {
+      clip-path: inset(0 0% 0 0);
+    }
+
+    /* ─── FULL BLEED PARALLAX ─── */
+    .fullbleed-section {
+      height: 65vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .parallax-inner {
+      position: absolute;
+      inset: -20% 0;
+      will-change: transform;
+    }
+
+    .parallax-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .fullbleed-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--green-dark);
+      opacity: 0.15;
+    }
+
+    /* ─── WHY SECTION ─── */
+    .why-section {
+      padding: 160px 8vw 180px;
+      text-align: center;
+      position: relative;
+    }
+
+    .why-highlight {
+      font-family: var(--font-jp);
+      font-size: clamp(28px, 4vw, 54px);
+      font-weight: 700;
+      color: var(--green-dark);
+      line-height: 1.5;
+      letter-spacing: 0.04em;
+      margin-bottom: 80px;
+    }
+
+    .why-body {
+      font-family: var(--font-jp);
+      font-size: clamp(14px, 1.3vw, 16px);
+      font-weight: 300;
+      line-height: 2.8;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      margin: 0 auto 56px;
+      max-width: 600px;
+    }
+
+    .why-em {
+      font-family: var(--font-jp);
+      font-size: clamp(18px, 2.5vw, 30px);
+      font-weight: 600;
+      color: var(--green-dark);
+      line-height: 1.8;
+      letter-spacing: 0.06em;
+      margin: 0 auto 56px;
+      max-width: 700px;
+    }
+
+    .why-final {
+      font-family: var(--font-jp);
+      font-size: clamp(24px, 3.5vw, 48px);
+      font-weight: 700;
+      color: var(--green-dark);
+      line-height: 1.5;
+      letter-spacing: 0.04em;
+      margin-top: 96px;
+    }
+
+    .why-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-yellow);
+      vertical-align: middle;
+      margin: 0 6px 3px;
+    }
+
+    /* ─── REVEAL ANIMATIONS ─── */
+    .rv {
+      opacity: 0;
+      transform: translateY(48px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .rv.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .rv-fade {
+      opacity: 0;
+      transition: opacity 1.4s ease;
+    }
+
+    .rv-fade.is-visible { opacity: 1; }
+
+    .d1 { transition-delay: 0.08s; }
+    .d2 { transition-delay: 0.18s; }
+    .d3 { transition-delay: 0.28s; }
+    .d4 { transition-delay: 0.38s; }
+    .d5 { transition-delay: 0.48s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .body-section {
         grid-template-columns: 1fr;
-        gap: 32px;
-        margin-bottom: 100px;
+        gap: 60px;
+        padding: 80px 6vw;
       }
+      .body-img-col { position: relative; top: 0; }
+      .body-img-wrap img { height: 45vw; }
+    }
 
-      .section-label.large {
-        font-size: 40px;
-      }
+    @media (max-width: 600px) {
+      .concept-section { padding: 80px 6vw 100px; }
+      .why-section { padding: 100px 6vw 120px; }
+      .fullbleed-section { height: 50vw; }
+      .about-hero-scroll, .about-hero-num { display: none; }
     }
   </style>
 </head>
@@ -99,7 +381,7 @@
   <!-- NAV -->
   <nav class="nav" id="nav">
     <div class="nav-logo">
-      <a href="index.html">Edible Tokyo Rally</a>
+      <a href="index.html" style="color: inherit; text-decoration: none;">Edible Tokyo Rally</a>
     </div>
     <ul class="nav-links" id="navigation">
       <li><a href="about.html">About</a></li>
@@ -114,99 +396,117 @@
     </button>
   </nav>
 
-  <main class="page-container">
+  <!-- ───────── HERO ───────── -->
+  <section class="about-hero">
+    <div class="about-hero-line"></div>
+    <span class="about-hero-eyebrow">Edible Tokyo Rally</span>
+    <h1 class="about-hero-title">About</h1>
+    <p class="about-hero-sub">食べられるまちを、東京から</p>
+    <div class="about-hero-scroll">scroll</div>
+    <div class="about-hero-num">2026.05.15 — 17</div>
+  </section>
 
-    <!-- ABOUT SECTION -->
-    <section class="about-section-grid">
-      <div class="section-label large">About</div>
-      <div class="section-content">
-        <div class="lead-block">
-          <p class="lead-text">育てる 食べる めぐらせる。</p>
-          <p class="lead-text">都市で育むいのちの環の中へ</p>
-          <p class="lead-text">ひとと自然と。都市でつながる３日間</p>
-        </div>
+  <hr class="rule">
 
-        <div class="body-block">
-          <p>
-            都市こそ、あらゆるいのちと食と緑を結び直す可能性に満ちている！<br>
-            オフィスビルやマンション、住宅が立ち並ぶ東京にも、<br>
-            土に触れ、野菜や果樹、ハーブを育てながら、<br>
-            暮らしや地域も豊かにするガーデンが広がりつつあります。
-          </p>
-          <p>
-            「食べられるまち＝EDIBLE CITY(エディブル・シティ)」への一歩を育む<br>
-            都内各所のガーデンが扉を開く、３日間。
-          </p>
-          <p>
-            今年で３回目となるEDIBLE TOKYO RALLYでは、<br>
-            それぞれの形で開かれているガーデンを繋ぎ、<br>
-            都市で農や自然のある暮らしを楽しめる、イベントやツアーをご用意しています。<br>
-            鮮やかな緑、土を耕すミミズ、花に集まるミツバチ、そして人と人との繋がり。<br>
-            何気なく過ごしているまちの中に息づく、小さないのちの循環に出会えるはず。
-          </p>
-          <p>
-            都市の葉脈をたどるようにガーデンをめぐりながら、<br>
-            ひとと自然が健やかにつながる環のなかへ、ご一緒してみませんか？
-          </p>
-        </div>
+  <!-- ───────── CONCEPT ───────── -->
+  <section class="concept-section">
+    <div class="section-tag rv-fade">01 — Concept</div>
+    <span class="concept-line rv d1">育てる 食べる めぐらせる。</span>
+    <span class="concept-line rv d2">都市で育むいのちの環の中へ</span>
+    <span class="concept-line rv d3">ひとと自然と。都市でつながる３日間</span>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ───────── BODY TEXT + IMAGE ───────── -->
+  <div class="body-section">
+    <div class="body-col">
+      <div class="body-col-label rv-fade">About</div>
+      <p class="rv d1">
+        都市こそ、あらゆるいのちと食と緑を結び直す可能性に満ちている！<br>
+        オフィスビルやマンション、住宅が立ち並ぶ東京にも、<br>
+        土に触れ、野菜や果樹、ハーブを育てながら、<br>
+        暮らしや地域も豊かにするガーデンが広がりつつあります。
+      </p>
+      <p class="rv d2">
+        「食べられるまち＝EDIBLE CITY(エディブル・シティ)」への一歩を育む<br>
+        都内各所のガーデンが扉を開く、３日間。
+      </p>
+      <p class="rv d3">
+        今年で３回目となるEDIBLE TOKYO RALLYでは、<br>
+        それぞれの形で開かれているガーデンを繋ぎ、<br>
+        都市で農や自然のある暮らしを楽しめる、イベントやツアーをご用意しています。<br>
+        鮮やかな緑、土を耕すミミズ、花に集まるミツバチ、そして人と人との繋がり。<br>
+        何気なく過ごしているまちの中に息づく、小さないのちの循環に出会えるはず。
+      </p>
+      <p class="rv d4">
+        都市の葉脈をたどるようにガーデンをめぐりながら、<br>
+        ひとと自然が健やかにつながる環のなかへ、ご一緒してみませんか？
+      </p>
+    </div>
+    <div class="body-img-col">
+      <div class="body-img-wrap clip-reveal">
+        <img src="use_picture/about_photo/j01.png" alt="Edible Tokyo Rally">
       </div>
-    </section>
+    </div>
+  </div>
 
-    <!-- IMAGE SECTION -->
-    <section class="about-image-full" style="margin: 0 -10vw 240px; overflow: hidden;">
-      <img src="use_picture/about_photo/j01.png" alt="Edible Tokyo Rally" style="width: 100%; height: 800px; object-fit: cover; display: block;">
-    </section>
+  <hr class="rule">
 
-    <!-- WHY SECTION -->
-    <section class="about-section-grid">
-      <div class="section-label small">why</div>
-      <div class="section-content">
-        <div class="body-block">
-          <p>東京には、緑が必要だ。</p>
+  <!-- ───────── FULL BLEED PARALLAX ───────── -->
+  <section class="fullbleed-section">
+    <div class="parallax-inner" id="js-parallax">
+      <img src="use_picture/about_photo/j01.png" alt="Edible Tokyo Rally">
+    </div>
+    <div class="fullbleed-overlay"></div>
+  </section>
 
-          <p>
-            コンクリートに覆われた街で、<br>
-            人は食べ物がどこからくるのかを、<br>
-            少しずつ忘れていった。
-          </p>
+  <!-- ───────── WHY ───────── -->
+  <section class="why-section">
+    <div class="section-tag rv-fade" style="justify-content: center; margin-bottom: 80px;">02 — Why</div>
 
-          <p>
-            気候が変わり<br>
-            海が温まり<br>
-            森が減っていく。
-          </p>
+    <p class="why-highlight rv">東京には、緑が必要だ。</p>
 
-          <p>それでも、日常はつづいている。</p>
+    <p class="why-body rv d1">
+      コンクリートに覆われた街で、<br>
+      人は食べ物がどこからくるのかを、<br>
+      少しずつ忘れていった。
+    </p>
 
-          <p>
-            東京に暮らしながら、気候のことや自然のことを<br>
-            自分ごととして考えるのは、難しい。
-          </p>
+    <p class="why-body rv d2">
+      気候が変わり<br>
+      海が温まり<br>
+      森が減っていく。
+    </p>
 
-          <p>でも、「食べる」ことなら、誰にでも入口がある。</p>
+    <p class="why-em rv d1">それでも、日常はつづいている。</p>
 
-          <p>
-            Edible Tokyo Rallyは、<br>
-            東京各地のガーデンをひらく3日間を
-          </p>
+    <p class="why-body rv d2">
+      東京に暮らしながら、気候のことや自然のことを<br>
+      自分ごととして考えるのは、難しい。
+    </p>
 
-          <p>「食べられる緑」を訪ね、人に会い, 土にふれる。</p>
+    <p class="why-em rv">
+      <span class="why-dot"></span>でも、「食べる」ことなら、誰にでも入口がある。
+    </p>
 
-          <p>
-            子どもも大人も土に触れ、街に「食べられる場所」が増えていくことが、<br>
-            新しい日本の姿を見せてくれると思います。
-          </p>
+    <p class="why-body rv d1">
+      Edible Tokyo Rallyは、<br>
+      東京各地のガーデンをひらく3日間。
+    </p>
 
-          <p>知って、体験して、動きたくなる。</p>
+    <p class="why-body rv d2">
+      「食べられる緑」を訪ね、人に会い、土にふれる。<br>
+      子どもも大人も土に触れ、街に「食べられる場所」が増えていくことが、<br>
+      新しい日本の姿を見せてくれると思います。
+    </p>
 
-          <p>東京から、自然を変えていこう。</p>
-        </div>
-      </div>
-    </section>
+    <p class="why-body rv d3">知って、体験して、動きたくなる。</p>
 
-  </main>
+    <p class="why-final rv">東京から、自然を変えていこう。</p>
+  </section>
 
-  <!-- FOOTER (Consistent with index) -->
+  <!-- ───────── FOOTER ───────── -->
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-bottom">
@@ -223,6 +523,51 @@
       <p class="footer-logo">Edible Tokyo Rally</p>
     </div>
   </footer>
+
+  <script>
+    // ── Nav scroll shadow ──
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('nav--scrolled', window.scrollY > 60);
+    });
+
+    // ── Hamburger ──
+    document.getElementById('js-hamburger').addEventListener('click', function () {
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !expanded);
+      this.classList.toggle('is-open');
+      document.getElementById('navigation').classList.toggle('is-open');
+    });
+
+    // ── Scroll reveal (IntersectionObserver) ──
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.rv, .rv-fade, .clip-reveal, .body-img-wrap').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // ── Parallax on full-bleed image ──
+    const parallaxEl = document.getElementById('js-parallax');
+    if (parallaxEl) {
+      const section = parallaxEl.closest('.fullbleed-section');
+      const onScroll = () => {
+        const rect = section.getBoundingClientRect();
+        if (rect.bottom > 0 && rect.top < window.innerHeight) {
+          const progress = (rect.top / window.innerHeight);
+          parallaxEl.style.transform = `translateY(${progress * 80}px)`;
+        }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+  </script>
 
 </body>
 
