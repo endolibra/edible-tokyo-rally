@@ -168,7 +168,7 @@ body {
 .hero-vertical-text {
   position: absolute;
   right: 5vw;
-  top: 40px;
+  top: calc(57px + 24px);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -179,6 +179,7 @@ body {
   letter-spacing: 0.35em;
   color: var(--green-dark);
   opacity: 0.5;
+  overflow: visible;
 }
 
 .hero-brand {
@@ -611,7 +612,7 @@ body {
   position: relative;
   border-radius: 0;
   overflow: hidden;
-  background: #d6e3d1;
+  background: #fff;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
