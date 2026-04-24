@@ -216,29 +216,18 @@ body {
   overflow: hidden;
 }
 
-/* Grow-up reveal (JS adds .is-ready) */
-.hero-illustration.is-ready {
-  animation: stemGrow 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
-}
-
-@keyframes stemGrow {
-  from { clip-path: inset(100% 0 0 0); }
-  to   { clip-path: inset(0% 0 0 0); }
-}
-
 .city-svg {
   width: 100%;
   height: auto;
   display: block;
 }
 
-/* Perpetual sway after grow completes */
 #hero-botanical-svg {
   width: 100%;
   height: auto;
   display: block;
   transform-origin: bottom center;
-  animation: gardenSway 7s ease-in-out 2.6s infinite;
+  animation: gardenSway 7s ease-in-out infinite;
 }
 
 @keyframes gardenSway {
