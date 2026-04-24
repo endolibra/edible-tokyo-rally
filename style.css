@@ -180,7 +180,7 @@ body {
   letter-spacing: -0.02em;
   color: var(--green-dark);
   line-height: 1.05;
-  margin-left: -4px;
+  margin-left: -8px;
   margin-bottom: 16px;
   opacity: 0;
   animation: heroFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
