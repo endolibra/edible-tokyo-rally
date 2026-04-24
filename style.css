@@ -149,15 +149,70 @@ body {
 /* ─── HERO ─────────────────────────────────────────── */
 .hero {
   position: relative;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
-  overflow: hidden;
   padding-top: 57px;
+  overflow: hidden;
+}
+
+.hero-text-area {
+  position: relative;
+  z-index: 2;
+  padding: 5vh 8vw 4vh;
+  flex-shrink: 0;
+}
+
+.hero-brand {
+  font-family: var(--font-en);
+  font-size: clamp(42px, 7vw, 96px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--green-dark);
+  line-height: 1.05;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: heroFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+.hero-sub {
+  font-family: var(--font-jp);
+  font-size: clamp(12px, 1.2vw, 14px);
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--text-light);
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: heroFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+}
+
+.hero-date {
+  font-family: var(--font-en);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--text-light);
+  opacity: 0;
+  animation: heroFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
+}
+
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .hero-illustration {
-  position: relative;
   width: 100%;
+  overflow: hidden;
+}
+
+/* Grow-up reveal (JS adds .is-ready) */
+.hero-illustration.is-ready {
+  animation: stemGrow 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+}
+
+@keyframes stemGrow {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0% 0 0 0); }
 }
 
 .city-svg {
@@ -166,17 +221,18 @@ body {
   display: block;
 }
 
-.hero-botanical-img {
-  opacity: 0;
-  transform: translateY(40px) scale(1.03);
-  animation: botanicalReveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+/* Perpetual sway after grow completes */
+#hero-botanical-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform-origin: bottom center;
+  animation: gardenSway 7s ease-in-out 2.6s infinite;
 }
 
-@keyframes botanicalReveal {
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+@keyframes gardenSway {
+  0%,100% { transform: rotate(-0.5deg) translateX(-5px); }
+  50%     { transform: rotate(0.5deg)  translateX(5px); }
 }
 
 .hero-vertical-text {
@@ -192,26 +248,14 @@ body {
   font-weight: 400;
   letter-spacing: 0.35em;
   color: var(--green-dark);
-  opacity: 0.6;
-  overflow: visible;
-}
-
-.hero-brand {
-  display: block;
-  font-family: var(--font-en);
-  font-size: clamp(36px, 6vw, 88px);
-  font-weight: 300;
-  letter-spacing: -0.01em;
-  color: var(--green-dark);
-  line-height: 1.1;
-  padding: 5vh 5vw 8vh;
-  animation: heroFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: 0.2s;
+  opacity: 0;
+  animation: heroFadeUp 1s ease 0.8s forwards;
+  z-index: 2;
 }
 
 @keyframes heroFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to   { opacity: 0.6; }
 }
 
 /* ── Ticker ── */

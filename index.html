@@ -44,15 +44,19 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-illustration">
-      <img src="use_picture/top.svg" alt="Edible Tokyo Rally" class="city-svg hero-botanical-img">
+    <div class="hero-text-area">
+      <div class="hero-brand">Edible Tokyo Rally</div>
+      <p class="hero-sub">食べられるまちを、東京から</p>
+      <p class="hero-date">2026.05.15 — 17</p>
     </div>
     <div class="hero-vertical-text">
       <span>エディブル</span>
       <span>トウキョウ</span>
       <span>ラリー</span>
     </div>
-    <div class="hero-brand">Edible Tokyo Rally</div>
+    <div class="hero-illustration" id="js-hero-illustration">
+      <!-- SVG injected by JS -->
+    </div>
 
     <!-- UPDATE TICKER -->
     <div class="hero-ticker">
@@ -637,6 +641,22 @@
     vivusBottom = new Vivus('city-svg-bottom', {
       start: 'manual', duration: 100, animTimingFunction: Vivus.EASE
     });
+
+    // ── Hero SVG インライン挿入 + アニメーション ──
+    (function () {
+      var container = document.getElementById('js-hero-illustration');
+      fetch('use_picture/top.svg')
+        .then(function (r) { return r.text(); })
+        .then(function (svgText) {
+          container.innerHTML = svgText;
+          var svg = container.querySelector('svg');
+          svg.id = 'hero-botanical-svg';
+          svg.classList.add('city-svg');
+          svg.removeAttribute('width');
+          svg.removeAttribute('height');
+          container.classList.add('is-ready');
+        });
+    })();
   </script>
 </body>
 
