@@ -69,8 +69,8 @@ body {
 .nav-logo {
   font-family: var(--font-en);
   font-size: 17px;
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  font-weight: 300;
+  letter-spacing: 0;
   margin-right: auto;
   color: #fff;
 }
