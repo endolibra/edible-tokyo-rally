@@ -170,6 +170,7 @@ body {
 .hero-date {
   margin: 0;
   padding: 0;
+  margin-left: 2px;
 }
 
 .hero-brand {
