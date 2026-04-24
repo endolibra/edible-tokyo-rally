@@ -72,6 +72,7 @@ body {
   font-weight: 400;
   letter-spacing: 0.02em;
   margin-right: auto;
+  color: #fff;
 }
 
 .nav-logo a {
@@ -736,6 +737,53 @@ body {
 }
 
 .garden-sns-link:hover { opacity: 1; }
+
+/* ─── SPONSOR SECTION ────────────────────────────── */
+.sponsor-section {
+  padding: 48px 5vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  border-top: 1px solid var(--green-dark);
+  opacity: 0.45;
+}
+
+.sponsor-label {
+  font-family: var(--font-en);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+
+.sponsor-list {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sponsor-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sponsor-logo {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+.sponsor-name {
+  font-family: var(--font-jp);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  white-space: nowrap;
+}
 
 /* ─── BOTTOM ILLUSTRATION ─────────────────────────── */
 .city-illustration-bottom {
