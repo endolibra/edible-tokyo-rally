@@ -1049,7 +1049,7 @@ body {
 }
 
 @media (max-width: 560px) {
-  .hero-brand { font-size: 22px; }
+  .hero-brand { font-size: 22px; margin-left: -3px; }
 
   .hero-ticker { padding: 8px 16px; }
 
