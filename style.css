@@ -223,9 +223,10 @@ body {
 }
 
 #hero-botanical-svg {
-  width: 100%;
+  width: 130%;
   height: auto;
   display: block;
+  margin-left: -15%;
   transform-origin: bottom center;
   animation: gardenSway 7s ease-in-out infinite;
 }
