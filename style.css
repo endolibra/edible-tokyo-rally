@@ -733,6 +733,20 @@ body {
   margin-bottom: 8px;
 }
 
+.workshop-tag {
+  display: inline-block;
+  font-family: var(--font-en);
+  font-size: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: var(--green-mid);
+  color: #fff;
+  padding: 3px 8px;
+  margin-bottom: 8px;
+  margin-left: 4px;
+}
+
 .event-card {
   border: 1px solid rgba(248, 184, 1, 0.25);
 }
