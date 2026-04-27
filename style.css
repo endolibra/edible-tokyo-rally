@@ -271,7 +271,7 @@ body {
   flex-shrink: 0;
   position: relative;
   z-index: 3;
-  margin-top: -60px;
+  margin-top: -30px;
 }
 
 .hero-ticker-label {
