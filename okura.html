@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-N7S4WWKX81"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-N7S4WWKX81');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大蔵空き地 - Edible Tokyo Rally</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .garden-detail-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 180px 10vw 120px;
+    }
+
+    .garden-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      margin-bottom: 120px;
+    }
+
+    .garden-title-area h1 {
+      font-family: var(--font-en);
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 300;
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+
+    .garden-meta {
+      font-size: 14px;
+      color: var(--text-light);
+      letter-spacing: 0.05em;
+    }
+
+    .garden-hero-img {
+      width: 100%;
+      height: 60vh;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 120px;
+    }
+
+    .garden-info-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 160px;
+      margin-bottom: 120px;
+    }
+
+    .info-label {
+      font-family: var(--font-en);
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .info-content p {
+      font-size: 16px;
+      line-height: 2;
+      letter-spacing: 0.05em;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 768px) {
+      .garden-detail-container {
+        padding: 120px 24px 80px;
+      }
+      .garden-header, .garden-info-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-logo"><a href="index.html" style="text-decoration: none; display: block;"><img src="use_picture/logo_toppage.png" alt="エディブル" style="height: 22px; width: auto; display: block;"></a></div>
+    <ul class="nav-links" id="navigation">
+      <li><a href="about.html">About</a></li>
+      <li><a href="index.html#map">map</a></li>
+      <li><a href="index.html#day01">Day01</a></li>
+      <li><a href="index.html#day02">Day02</a></li>
+      <li><a href="index.html#day03">Day03</a></li>
+    </ul>
+    <button class="hamburger" id="js-hamburger" aria-label="メニューを開く" aria-expanded="false">
+      <span class="hamburger-line"></span>
+    </button>
+  </nav>
+
+  <main class="garden-detail-container">
+    <header class="garden-header">
+      <div class="garden-title-area">
+        <h1>大蔵空き地</h1>
+        <div class="garden-meta">
+          <p>東京都世田谷区大蔵5-10-22</p>
+          <p>Open: 5/16</p>
+        </div>
+      </div>
+      <div class="garden-intro">
+        <p style="font-size: 16px; line-height: 2.2; font-weight: 300;">
+          国分寺崖線の緑が残る世田谷区大蔵の「(旧)あきち」。<br><br>
+          暮らしの場づくりプロジェクトを行なっています。
+        </p>
+      </div>
+    </header>
+
+    <img src="use_picture/garden_photo/okura_akichi/okuraakichi1.jpg" alt="大蔵空き地" class="garden-hero-img">
+
+    <section class="garden-info-grid">
+      <div class="info-label">Event</div>
+      <div class="info-content">
+        <p>
+          <strong>①ワークショップ</strong><br>
+          暮らしの場づくりプロジェクトの一環として、自然素材から小屋ができていく過程を体験できます。<br><br>
+          剪定枝や落ち葉を利用して、土や水の動きを穏やかに受け流す土留め「しがら」づくりと、枝や雑草などを分解する堆肥システム「バイオネスト」づくりを行います。<br><br>
+          講師：マメシバ造園代表　河合菜採さん<br>
+          開催時間：10:00-16:00<br>
+          定員：15名<br>
+          参加費：2,000円＋スライディングスケール
+        </p>
+        <p>
+          <strong>②見学</strong><br>
+          大蔵空き地の見学ができます。<br>
+          開催時間：10:00-16:00<br>
+          参加費：無料
+        </p>
+        <p>
+          <a href="https://bioform.jp/project/sumikawotukuru" target="_blank" rel="noopener noreferrer" style="color: var(--green-mid); font-weight: 600;">https://bioform.jp/project/sumikawotukuru</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="garden-info-grid">
+      <div class="info-label">Access</div>
+      <div class="info-content">
+        <p>
+          <strong>住所</strong><br>
+          東京都世田谷区大蔵5-10-22
+        </p>
+        <a href="https://maps.app.goo.gl/jvbtaAN1n7LEbWSS8" target="_blank" rel="noopener noreferrer" class="btn-map" style="margin: 0; padding: 8px 24px; font-size: 12px;">mapへ</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-bottom">
+        <div class="footer-credit">
+          <p>大蔵空き地</p>
+        </div>
+        <nav class="footer-nav">
+          <a href="about.html">About</a>
+          <a href="index.html#map">map</a>
+        </nav>
+      </div>
+      <p class="footer-logo">Edible Tokyo Rally</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('js-hamburger').addEventListener('click', function () {
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !expanded);
+      this.classList.toggle('is-open');
+      document.getElementById('navigation').classList.toggle('is-open');
+    });
+  </script>
+
+</body>
+
+</html>
