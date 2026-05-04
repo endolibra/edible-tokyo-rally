@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-N7S4WWKX81"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-N7S4WWKX81');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Schedule - Edible Tokyo Rally</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Page Layout ── */
+    .ts-container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 160px 5vw 120px;
+    }
+    .ts-page-header {
+      margin-bottom: 64px;
+    }
+    .ts-page-header h1 {
+      font-family: var(--font-en);
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .ts-page-header p {
+      font-family: var(--font-en);
+      font-size: 14px;
+      color: var(--text-light);
+      letter-spacing: 0.12em;
+    }
+
+    /* ── Day Tabs ── */
+    .ts-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 40px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    .ts-tab {
+      font-family: var(--font-en);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 10px 24px 12px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: var(--text-light);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .ts-tab span {
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+    }
+    .ts-tab:hover { color: var(--green-mid); }
+    .ts-tab.active {
+      color: var(--green-mid);
+      border-bottom-color: var(--green-mid);
+    }
+
+    /* ── Panels ── */
+    .ts-panel { display: none; }
+    .ts-panel.active { display: block; }
+
+    /* ── Day01 Simple Panel ── */
+    .ts-day01-card {
+      display: inline-block;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 8px;
+      padding: 48px 60px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      max-width: 480px;
+    }
+    .ts-day01-badge {
+      font-family: var(--font-en);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      background: #f8b801;
+      color: #333;
+      padding: 3px 10px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .ts-day01-card h2 {
+      font-family: var(--font-en);
+      font-size: 28px;
+      font-weight: 300;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .ts-day01-card p {
+      font-size: 13px;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+    .ts-day01-card .ts-venue {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--green-mid);
+      margin-top: 4px;
+    }
+
+    /* ── Scroll Hint ── */
+    .ts-scroll-hint {
+      font-family: var(--font-en);
+      font-size: 11px;
+      color: var(--text-light);
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    /* ── Legend ── */
+    .ts-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+      align-items: center;
+    }
+    .ts-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-light);
+      letter-spacing: 0.04em;
+    }
+    .ts-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── Scroll Container ── */
+    .ts-scroll-outer {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 8px;
+      background: white;
+    }
+
+    /* ── Grid ── */
+    .ts-grid {
+      display: grid;
+      /* Row 1: header 52px, each time slot 40px */
+      grid-template-rows: 52px repeat(var(--row-count), 40px);
+      position: relative;
+      /* Horizontal lines every 40px starting after 52px header */
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.055) 0,
+        rgba(0,0,0,0.055) 1px,
+        transparent 1px,
+        transparent 40px
+      );
+      background-size: 100% 40px;
+      background-position: 0 52px;
+    }
+    .ts-grid--day02 {
+      --row-count: 16;
+      grid-template-columns: 44px repeat(11, minmax(105px, 1fr));
+      min-width: 1204px;
+    }
+    .ts-grid--day03 {
+      --row-count: 22;
+      grid-template-columns: 44px repeat(8, minmax(120px, 1fr));
+      min-width: 1004px;
+    }
+
+    /* ── Corner / Header cells ── */
+    .ts-corner {
+      position: sticky;
+      left: 0;
+      background: #f5f3ee;
+      z-index: 10;
+      border-right: 1px solid rgba(0,0,0,0.1);
+      border-bottom: 2px solid rgba(0,0,0,0.12);
+    }
+    .ts-col-header {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.4;
+      border-right: 1px solid rgba(0,0,0,0.06);
+      border-bottom: 2px solid rgba(0,0,0,0.12);
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+      background: #f5f3ee;
+    }
+    .ts-col-header:hover {
+      background: rgba(100, 165, 90, 0.12);
+      color: var(--green-mid);
+    }
+
+    /* ── Time Labels ── */
+    .ts-time {
+      font-family: var(--font-en);
+      font-size: 10px;
+      color: var(--text-light);
+      display: flex;
+      align-items: flex-start;
+      padding-top: 4px;
+      justify-content: flex-end;
+      padding-right: 8px;
+      border-right: 1px solid rgba(0,0,0,0.1);
+      position: sticky;
+      left: 0;
+      background: white;
+      z-index: 5;
+    }
+    /* Highlight on-the-hour lines */
+    .ts-time--hour {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── Event Blocks ── */
+    .ts-event {
+      border-radius: 4px;
+      padding: 6px 8px;
+      margin: 2px 3px;
+      font-size: 10px;
+      line-height: 1.45;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      text-decoration: none;
+      transition: opacity 0.15s, transform 0.15s;
+      position: relative;
+      z-index: 1;
+    }
+    .ts-event:hover {
+      opacity: 0.85;
+      transform: scale(0.98);
+    }
+    .ts-event-time {
+      font-family: var(--font-en);
+      font-size: 9px;
+      letter-spacing: 0.04em;
+      margin-top: auto;
+      padding-top: 4px;
+      opacity: 0.75;
+      display: block;
+    }
+
+    /* Event type styles */
+    .ts-event--ws {
+      background: rgba(55, 105, 50, 0.88);
+      color: white;
+    }
+    .ts-event--ws .ts-event-time { opacity: 0.8; color: rgba(255,255,255,0.85); }
+
+    .ts-event--open {
+      background: rgba(95, 155, 80, 0.14);
+      color: #2d5a27;
+      border-left: 3px solid rgba(95, 155, 80, 0.5);
+    }
+    .ts-event--open .ts-event-time { color: #4a8040; }
+
+    .ts-event--food {
+      background: rgba(200, 150, 40, 0.18);
+      color: #7a5810;
+      border-left: 3px solid rgba(200, 150, 40, 0.55);
+    }
+    .ts-event--food .ts-event-time { color: #8a6010; }
+
+    .ts-event--free {
+      background: rgba(170, 170, 170, 0.16);
+      color: #888;
+      border-left: 3px solid rgba(160, 160, 160, 0.4);
+    }
+
+    .ts-event--closing {
+      background: #2a5426;
+      color: white;
+      border: none;
+    }
+    .ts-event--closing .ts-event-time { opacity: 0.8; color: rgba(255,255,255,0.85); }
+
+    /* Overlay: appears on top of open block */
+    .ts-event--overlay {
+      z-index: 2;
+      margin: 3px 6px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.18);
+    }
+
+    @media (max-width: 900px) {
+      .ts-container { padding: 140px 20px 80px; }
+      .ts-scroll-hint { display: block; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-logo"><a href="index.html" style="text-decoration: none; display: block;"><img src="use_picture/logo_toppage.png" alt="エディブル" style="height: 22px; width: auto; display: block;"></a></div>
+    <ul class="nav-links" id="navigation">
+      <li><a href="about.html">About</a></li>
+      <li><a href="index.html#map">map</a></li>
+      <li><a href="index.html#day01">Day01</a></li>
+      <li><a href="index.html#day02">Day02</a></li>
+      <li><a href="index.html#day03">Day03</a></li>
+      <li><a href="timeschedule.html">Schedule</a></li>
+    </ul>
+    <button class="hamburger" id="js-hamburger" aria-label="メニューを開く" aria-expanded="false">
+      <span class="hamburger-line"></span>
+    </button>
+  </nav>
+
+  <main class="ts-container">
+
+    <header class="ts-page-header">
+      <h1>Time Schedule</h1>
+      <p>2026.05.15 — 17 &nbsp;|&nbsp; Edible Tokyo Rally</p>
+    </header>
+
+    <!-- Day Tabs -->
+    <div class="ts-tabs" role="tablist">
+      <button class="ts-tab" role="tab" data-panel="day01">
+        Day 01 <span>5.15 fri</span>
+      </button>
+      <button class="ts-tab active" role="tab" data-panel="day02">
+        Day 02 <span>5.16 sat</span>
+      </button>
+      <button class="ts-tab" role="tab" data-panel="day03">
+        Day 03 <span>5.17 sun</span>
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════ DAY 01 ══════════════════════════════ -->
+    <div class="ts-panel" id="ts-day01" role="tabpanel">
+      <div class="ts-day01-card">
+        <div class="ts-day01-badge">Event</div>
+        <h2>Opening Event</h2>
+        <p class="ts-venue">@ Edible Kayabaen</p>
+        <p style="margin-top:16px;">詳細は近日公開予定<br>5月15日（金）</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════ DAY 02 ══════════════════════════════ -->
+    <div class="ts-panel active" id="ts-day02" role="tabpanel">
+
+      <!-- Legend -->
+      <div class="ts-legend">
+        <span class="ts-legend-item"><span class="ts-legend-dot" style="background:rgba(55,105,50,0.88)"></span>ワークショップ・有料イベント</span>
+        <span class="ts-legend-item"><span class="ts-legend-dot" style="background:rgba(95,155,80,0.14);border:1px solid rgba(95,155,80,0.5)"></span>オープン見学（無料）</span>
+        <span class="ts-legend-item"><span class="ts-legend-dot" style="background:rgba(200,150,40,0.18);border:1px solid rgba(200,150,40,0.55)"></span>食・交流イベント</span>
+        <span class="ts-legend-item"><span class="ts-legend-dot" style="background:rgba(170,170,170,0.16);border:1px solid rgba(160,160,160,0.4)"></span>フリータイム</span>
+      </div>
+
+      <p class="ts-scroll-hint">← 横にスクロールしてご覧ください</p>
+
+      <div class="ts-scroll-outer">
+        <div class="ts-grid ts-grid--day02">
+
+          <!-- ── Row 1: Headers ── -->
+          <div class="ts-corner" style="grid-row:1;grid-column:1"></div>
+          <a href="daiba.html"    class="ts-col-header" style="grid-row:1;grid-column:2">Bay Village<br>Farm</a>
+          <a href="tomobiru.html" class="ts-col-header" style="grid-row:1;grid-column:3">トモビル<br>ルーフガーデン</a>
+          <a href="ariake.html"   class="ts-col-header" style="grid-row:1;grid-column:4">有明<br>rooftopコモンズ</a>
+          <a href="kayabaen.html" class="ts-col-header" style="grid-row:1;grid-column:5">Edible<br>KAYABAEN</a>
+          <a href="otemachi.html" class="ts-col-header" style="grid-row:1;grid-column:6">The Edible Park<br>OTEMACHI</a>
+          <a href="harappa.html"  class="ts-col-header" style="grid-row:1;grid-column:7">原宿はらっぱ<br>ファーム</a>
+          <a href="ape.html"      class="ts-col-header" style="grid-row:1;grid-column:8">ape cucina<br>naturale</a>
+          <a href="jindaiji.html" class="ts-col-header" style="grid-row:1;grid-column:9">SATOYAMA<br>BASE JINDAIJI</a>
+          <a href="okura.html"    class="ts-col-header" style="grid-row:1;grid-column:10">大蔵空き地</a>
+          <a href="poopman.html"  class="ts-col-header" style="grid-row:1;grid-column:11">Poop Man's<br>Art Garden</a>
+          <a href="ikejiri.html"  class="ts-col-header" style="grid-row:1;grid-column:12">ART FARM<br>IKEJIRI</a>
+
+          <!-- ── Time Labels (col 1, rows 2-18) ── -->
+          <div class="ts-time ts-time--hour" style="grid-row:2;grid-column:1">10:00</div>
+          <div class="ts-time"               style="grid-row:3;grid-column:1">10:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:4;grid-column:1">11:00</div>
+          <div class="ts-time"               style="grid-row:5;grid-column:1">11:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:6;grid-column:1">12:00</div>
+          <div class="ts-time"               style="grid-row:7;grid-column:1">12:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:8;grid-column:1">13:00</div>
+          <div class="ts-time"               style="grid-row:9;grid-column:1">13:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:10;grid-column:1">14:00</div>
+          <div class="ts-time"               style="grid-row:11;grid-column:1">14:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:12;grid-column:1">15:00</div>
+          <div class="ts-time"               style="grid-row:13;grid-column:1">15:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:14;grid-column:1">16:00</div>
+          <div class="ts-time"               style="grid-row:15;grid-column:1">16:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:16;grid-column:1">17:00</div>
+          <div class="ts-time"               style="grid-row:17;grid-column:1">17:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:18;grid-column:1">18:00</div>
+
+          <!-- ── Events: Bay Village Farm (col 2) ── -->
+          <!-- 10:00-12:00 → rows 2/6 -->
+          <a href="daiba.html" class="ts-event ts-event--ws" style="grid-row:2/6;grid-column:2">
+            夏野菜の苗植え体験
+            <span class="ts-event-time">10:00 – 12:00</span>
+          </a>
+
+          <!-- ── Events: トモビル ルーフガーデン (col 3) ── -->
+          <!-- 11:00-16:00 open → rows 4/14 (background) -->
+          <a href="tomobiru.html" class="ts-event ts-event--open" style="grid-row:4/14;grid-column:3">
+            オープン見学
+            <span class="ts-event-time">11:00 – 16:00</span>
+          </a>
+          <!-- 12:00-14:00 lunch → rows 6/10 (overlay) -->
+          <a href="tomobiru.html" class="ts-event ts-event--food ts-event--overlay" style="grid-row:6/10;grid-column:3">
+            ランチ<br>（要申込）
+            <span class="ts-event-time">12:00 – 14:00</span>
+          </a>
+
+          <!-- ── Events: 有明rooftopコモンズ (col 4) ── -->
+          <!-- 10:00-17:00 → rows 2/16 -->
+          <a href="ariake.html" class="ts-event ts-event--ws" style="grid-row:2/16;grid-column:4">
+            屋上菜園フェス
+            <span class="ts-event-time">10:00 – 17:00</span>
+          </a>
+
+          <!-- ── Events: Edible KAYABAEN (col 5) ── -->
+          <!-- 10:00-12:30 → rows 2/7 -->
+          <a href="kayabaen.html" class="ts-event ts-event--ws" style="grid-row:2/7;grid-column:5">
+            保全生態学者に学ぶ菜園づくり
+            <span class="ts-event-time">10:00 – 12:30</span>
+          </a>
+          <!-- 15:00-16:00 → rows 12/14 -->
+          <a href="kayabaen.html" class="ts-event ts-event--open" style="grid-row:12/14;grid-column:5">
+            ガーデンツアー
+            <span class="ts-event-time">15:00 – 16:00</span>
+          </a>
+          <!-- 16:00-18:00 → rows 14/18 -->
+          <a href="kayabaen.html" class="ts-event ts-event--food" style="grid-row:14/18;grid-column:5">
+            つながるサロン交流会
+            <span class="ts-event-time">16:00 – 18:00</span>
+          </a>
+
+          <!-- ── Events: The Edible Park OTEMACHI (col 6) ── -->
+          <!-- 10:00-12:00 → rows 2/6 -->
+          <a href="otemachi.html" class="ts-event ts-event--ws" style="grid-row:2/6;grid-column:6">
+            農園ツアー＆体験WS
+            <span class="ts-event-time">10:00 – 12:00</span>
+          </a>
+
+          <!-- ── Events: 原宿はらっぱファーム (col 7) ── -->
+          <!-- 11:00-13:00 [1部] → rows 4/8 -->
+          <a href="harappa.html" class="ts-event ts-event--ws" style="grid-row:4/8;grid-column:7">
+            【1部】コミュニティガーデン編
+            <span class="ts-event-time">11:00 – 13:00</span>
+          </a>
+          <!-- 13:30-15:00 free → rows 9/12 -->
+          <a href="harappa.html" class="ts-event ts-event--free" style="grid-row:9/12;grid-column:7">
+            フリータイム
+            <span class="ts-event-time">13:30 – 15:00</span>
+          </a>
+          <!-- 15:00-17:00 [2部] → rows 12/16 -->
+          <a href="harappa.html" class="ts-event ts-event--ws" style="grid-row:12/16;grid-column:7">
+            【2部】コミュニティコンポスト編
+            <span class="ts-event-time">15:00 – 17:00</span>
+          </a>
+
+          <!-- ── Events: ape cucina naturale (col 8) ── -->
+          <!-- 11:00-15:00 → rows 4/12 -->
+          <a href="ape.html" class="ts-event ts-event--open" style="grid-row:4/12;grid-column:8">
+            テラスガーデン体験
+            <span class="ts-event-time">11:00 – 15:00</span>
+          </a>
+
+          <!-- ── Events: SATOYAMA BASE JINDAIJI (col 9) ── -->
+          <!-- 10:00-12:00 → rows 2/6 -->
+          <a href="jindaiji.html" class="ts-event ts-event--ws" style="grid-row:2/6;grid-column:9">
+            コミュニティガーデンで里山体験
+            <span class="ts-event-time">10:00 – 12:00</span>
+          </a>
+
+          <!-- ── Events: 大蔵空き地 (col 10) ── -->
+          <!-- 10:00-16:00 → rows 2/14 -->
+          <a href="okura.html" class="ts-event ts-event--ws" style="grid-row:2/14;grid-column:10">
+            ①WS しがら＋バイオネスト<br>②見学
+            <span class="ts-event-time">10:00 – 16:00</span>
+          </a>
+
+          <!-- ── Events: Poop Man's Art Garden (col 11) ── -->
+          <!-- 10:00-13:00 → rows 2/8 -->
+          <a href="poopman.html" class="ts-event ts-event--open" style="grid-row:2/8;grid-column:11">
+            オープン見学
+            <span class="ts-event-time">10:00 – 13:00</span>
+          </a>
+
+          <!-- ── Events: ART FARM IKEJIRI (col 12) ── -->
+          <!-- 13:00-18:00 → rows 8/18 -->
+          <a href="ikejiri.html" class="ts-event ts-event--open" style="grid-row:8/18;grid-column:12">
+            オープン見学
+            <span class="ts-event-time">13:00 – 18:00</span>
+          </a>
+
+        </div><!-- .ts-grid--day02 -->
+      </div><!-- .ts-scroll-outer -->
+    </div><!-- #ts-day02 -->
+
+    <!-- ══════════════════════════════ DAY 03 ══════════════════════════════ -->
+    <div class="ts-panel" id="ts-day03" role="tabpanel">
+
+      <!-- Legend -->
+      <div class="ts-legend">
+        <span class="ts-legend-item"><span class="ts-legend-dot" style="background:rgba(55,105,50,0.88)"></span>ワークショップ・有料イベント</span>
+        <span class="ts-legend-item"><span class="ts-legend-dot" style="background:rgba(95,155,80,0.14);border:1px solid rgba(95,155,80,0.5)"></span>オープン見学（無料）</span>
+        <span class="ts-legend-item"><span class="ts-legend-dot" style="background:rgba(200,150,40,0.18);border:1px solid rgba(200,150,40,0.55)"></span>食・交流イベント</span>
+        <span class="ts-legend-item"><span class="ts-legend-dot" style="background:#2a5426"></span>クロージングイベント</span>
+      </div>
+
+      <p class="ts-scroll-hint">← 横にスクロールしてご覧ください</p>
+
+      <div class="ts-scroll-outer">
+        <div class="ts-grid ts-grid--day03">
+
+          <!-- ── Row 1: Headers ── -->
+          <div class="ts-corner" style="grid-row:1;grid-column:1"></div>
+          <a href="sorari.html"   class="ts-col-header" style="grid-row:1;grid-column:2">農園そらり</a>
+          <a href="seijo.html"    class="ts-col-header" style="grid-row:1;grid-column:3">アグリス成城</a>
+          <a href="ape.html"      class="ts-col-header" style="grid-row:1;grid-column:4">ape cucina<br>naturale</a>
+          <a href="homework.html" class="ts-col-header" style="grid-row:1;grid-column:5">LFC<br>東京事務局</a>
+          <a href="kayabaen.html" class="ts-col-header" style="grid-row:1;grid-column:6">Edible<br>KAYABAEN</a>
+          <a href="tomobiru.html" class="ts-col-header" style="grid-row:1;grid-column:7">トモビル<br>ルーフガーデン</a>
+          <a href="poopman.html"  class="ts-col-header" style="grid-row:1;grid-column:8">Poop Man's<br>Art Garden</a>
+          <a href="ikejiri.html"  class="ts-col-header" style="grid-row:1;grid-column:9">ART FARM<br>IKEJIRI</a>
+
+          <!-- ── Time Labels (col 1, rows 2-24) ── -->
+          <div class="ts-time ts-time--hour" style="grid-row:2;grid-column:1">10:00</div>
+          <div class="ts-time"               style="grid-row:3;grid-column:1">10:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:4;grid-column:1">11:00</div>
+          <div class="ts-time"               style="grid-row:5;grid-column:1">11:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:6;grid-column:1">12:00</div>
+          <div class="ts-time"               style="grid-row:7;grid-column:1">12:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:8;grid-column:1">13:00</div>
+          <div class="ts-time"               style="grid-row:9;grid-column:1">13:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:10;grid-column:1">14:00</div>
+          <div class="ts-time"               style="grid-row:11;grid-column:1">14:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:12;grid-column:1">15:00</div>
+          <div class="ts-time"               style="grid-row:13;grid-column:1">15:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:14;grid-column:1">16:00</div>
+          <div class="ts-time"               style="grid-row:15;grid-column:1">16:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:16;grid-column:1">17:00</div>
+          <div class="ts-time"               style="grid-row:17;grid-column:1">17:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:18;grid-column:1">18:00</div>
+          <div class="ts-time"               style="grid-row:19;grid-column:1">18:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:20;grid-column:1">19:00</div>
+          <div class="ts-time"               style="grid-row:21;grid-column:1">19:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:22;grid-column:1">20:00</div>
+          <div class="ts-time"               style="grid-row:23;grid-column:1">20:30</div>
+          <div class="ts-time ts-time--hour" style="grid-row:24;grid-column:1">21:00</div>
+
+          <!-- ── Events: 農園そらり (col 2) ── -->
+          <!-- 10:00-11:00 → rows 2/4 -->
+          <a href="sorari.html" class="ts-event ts-event--ws" style="grid-row:2/4;grid-column:2">
+            ホップ栽培見学①
+            <span class="ts-event-time">10:00 – 11:00</span>
+          </a>
+          <!-- 13:30-14:30 → rows 9/11 -->
+          <a href="sorari.html" class="ts-event ts-event--ws" style="grid-row:9/11;grid-column:2">
+            ホップ栽培見学②
+            <span class="ts-event-time">13:30 – 14:30</span>
+          </a>
+
+          <!-- ── Events: アグリス成城 (col 3) ── -->
+          <!-- 10:00-16:00 open → rows 2/14 (background) -->
+          <a href="seijo.html" class="ts-event ts-event--open" style="grid-row:2/14;grid-column:3">
+            オープン見学
+            <span class="ts-event-time">10:00 – 16:00</span>
+          </a>
+          <!-- 13:00~ WS → rows 8/9 (overlay) -->
+          <a href="seijo.html" class="ts-event ts-event--ws ts-event--overlay" style="grid-row:8/10;grid-column:3">
+            ハーブで作る魔女のホウキ
+            <span class="ts-event-time">13:00〜</span>
+          </a>
+
+          <!-- ── Events: ape cucina naturale (col 4) ── -->
+          <!-- 11:00-15:00 テラスガーデン体験 → rows 4/12 -->
+          <a href="ape.html" class="ts-event ts-event--open" style="grid-row:4/12;grid-column:4">
+            テラスガーデン体験
+            <span class="ts-event-time">11:00 – 15:00</span>
+          </a>
+          <!-- 11:00 WS → rows 4/8 (overlay) -->
+          <a href="ape.html" class="ts-event ts-event--ws ts-event--overlay" style="grid-row:4/8;grid-column:4">
+            ブランチ作りWS①
+            <span class="ts-event-time">11:00〜</span>
+          </a>
+          <!-- 13:00 WS → rows 8/12 (overlay) -->
+          <a href="ape.html" class="ts-event ts-event--ws ts-event--overlay" style="grid-row:8/12;grid-column:4">
+            ブランチ作りWS②
+            <span class="ts-event-time">13:00〜</span>
+          </a>
+
+          <!-- ── Events: LFC東京事務局 (col 5) ── -->
+          <!-- 13:30-16:00 → rows 9/14 -->
+          <a href="homework.html" class="ts-event ts-event--ws" style="grid-row:9/14;grid-column:5">
+            一緒にレイズドベッドを作ろう！
+            <span class="ts-event-time">13:30 – 16:00</span>
+          </a>
+
+          <!-- ── Events: Edible KAYABAEN (col 6) ── -->
+          <!-- 10:00-12:00 → rows 2/6 -->
+          <a href="kayabaen.html" class="ts-event ts-event--ws" style="grid-row:2/6;grid-column:6">
+            ハーブガーデンことはじめ
+            <span class="ts-event-time">10:00 – 12:00</span>
+          </a>
+          <!-- 13:00-14:00 → rows 8/10 -->
+          <a href="kayabaen.html" class="ts-event ts-event--open" style="grid-row:8/10;grid-column:6">
+            ミニブーケの手仕事とガーデンサラダ
+            <span class="ts-event-time">13:00 – 14:00</span>
+          </a>
+
+          <!-- ── Events: トモビル ルーフガーデン (col 7) ── -->
+          <!-- 11:00-16:00 open → rows 4/14 (background) -->
+          <a href="tomobiru.html" class="ts-event ts-event--open" style="grid-row:4/14;grid-column:7">
+            オープン見学
+            <span class="ts-event-time">11:00 – 16:00</span>
+          </a>
+          <!-- 12:00-14:00 lunch → rows 6/10 (overlay) -->
+          <a href="tomobiru.html" class="ts-event ts-event--food ts-event--overlay" style="grid-row:6/10;grid-column:7">
+            ランチ<br>（要申込）
+            <span class="ts-event-time">12:00 – 14:00</span>
+          </a>
+
+          <!-- ── Events: Poop Man's Art Garden (col 8) ── -->
+          <!-- 10:00-13:00 → rows 2/8 -->
+          <a href="poopman.html" class="ts-event ts-event--open" style="grid-row:2/8;grid-column:8">
+            オープン見学
+            <span class="ts-event-time">10:00 – 13:00</span>
+          </a>
+
+          <!-- ── Events: ART FARM IKEJIRI (col 9) ── -->
+          <!-- 13:00-21:00 open → rows 8/24 (background) -->
+          <a href="ikejiri.html" class="ts-event ts-event--open" style="grid-row:8/24;grid-column:9">
+            オープン見学
+            <span class="ts-event-time">13:00 – 21:00</span>
+          </a>
+          <!-- 15:00-17:30 WS → rows 12/17 (overlay) -->
+          <a href="ikejiri.html" class="ts-event ts-event--ws ts-event--overlay" style="grid-row:12/17;grid-column:9">
+            WS「食べられる森になる」（華みき）
+            <span class="ts-event-time">15:00 – 17:30</span>
+          </a>
+          <!-- 17:00-20:00 closing → rows 16/22 (overlay) -->
+          <a href="ikejiri.html#closing" class="ts-event ts-event--closing ts-event--overlay" style="grid-row:16/22;grid-column:9">
+            ★ クロージングパーティー
+            <span class="ts-event-time">17:00 – 20:00</span>
+          </a>
+
+        </div><!-- .ts-grid--day03 -->
+      </div><!-- .ts-scroll-outer -->
+    </div><!-- #ts-day03 -->
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-bottom">
+        <div class="footer-credit">
+          <p>Time Schedule</p>
+        </div>
+        <nav class="footer-nav">
+          <a href="about.html">About</a>
+          <a href="index.html#map">map</a>
+          <a href="timeschedule.html">Schedule</a>
+        </nav>
+      </div>
+      <p class="footer-logo">Edible Tokyo Rally</p>
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger menu
+    document.getElementById('js-hamburger').addEventListener('click', function () {
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !expanded);
+      this.classList.toggle('is-open');
+      document.getElementById('navigation').classList.toggle('is-open');
+    });
+
+    // Day tab switcher
+    const tabs = document.querySelectorAll('.ts-tab');
+    const panels = document.querySelectorAll('.ts-panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.panel;
+
+        tabs.forEach(t => t.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+
+        tab.classList.add('active');
+        document.getElementById('ts-' + target).classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
