@@ -755,6 +755,62 @@ body {
   margin-left: 1px;
 }
 
+.food-tag {
+  display: inline-block;
+  font-family: var(--font-en);
+  font-size: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: #c96b2a;
+  color: #fff;
+  padding: 3px 8px;
+  margin-bottom: 8px;
+  margin-left: 1px;
+}
+
+.talk-tag {
+  display: inline-block;
+  font-family: var(--font-en);
+  font-size: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: #3e618a;
+  color: #fff;
+  padding: 3px 8px;
+  margin-bottom: 8px;
+  margin-left: 1px;
+}
+
+.art-tag {
+  display: inline-block;
+  font-family: var(--font-en);
+  font-size: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: #8c3a5a;
+  color: #fff;
+  padding: 3px 8px;
+  margin-bottom: 8px;
+  margin-left: 1px;
+}
+
+.harvest-tag {
+  display: inline-block;
+  font-family: var(--font-en);
+  font-size: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: #7a6520;
+  color: #fff;
+  padding: 3px 8px;
+  margin-bottom: 8px;
+  margin-left: 1px;
+}
+
 .event-card {
   border: 1px solid rgba(248, 184, 1, 0.25);
 }
